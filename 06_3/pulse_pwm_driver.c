@@ -115,7 +115,7 @@ static int driver_open(struct inode *device_file, struct file *instance) {
 }
 
 /**
- * @brief This function is called when the device file is opened
+ * @brief This function is called when the device file is closed
  */
 static int driver_close(struct inode *device_file, struct file *instance) {
 	printk("pulse_pwm_driver - close was called!\n");

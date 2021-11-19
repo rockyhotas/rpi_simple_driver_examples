@@ -31,7 +31,7 @@ struct pwm_device *pwm0 = NULL;
 /**
  * @brief Write data to buffer
  */
-static ssize_t driver_write(struct file *File, const char *user_buffer, size_t count, loff_t *offs) {
+static ssize_t driver_write(struct file *File, const char __user *user_buffer, size_t count, loff_t *offset) {
 	int to_copy, not_copied, delta;
 	char value;
 	struct pwm_state newstate;
@@ -61,7 +61,7 @@ static ssize_t driver_write(struct file *File, const char *user_buffer, size_t c
 }
 
 /**
- * @brief This function is called, when the device file is opened
+ * @brief This function is called when the device file is opened
  */
 static int driver_open(struct inode *device_file, struct file *instance) {
 	printk("alt_pwm_driver - open was called!\n");
@@ -69,7 +69,7 @@ static int driver_open(struct inode *device_file, struct file *instance) {
 }
 
 /**
- * @brief This function is called, when the device file is opened
+ * @brief This function is called when the device file is closed
  */
 static int driver_close(struct inode *device_file, struct file *instance) {
 	printk("alt_pwm_driver - close was called!\n");
@@ -84,7 +84,7 @@ static struct file_operations fops = {
 };
 
 /**
- * @brief This function is called, when the module is loaded into the kernel
+ * @brief This function is called when the module is loaded into the kernel
  */
 static int __init ModuleInit(void) {
 	printk("Hello, Kernel!\n");
@@ -140,7 +140,7 @@ ClassError:
 }
 
 /**
- * @brief This function is called, when the module is removed from the kernel
+ * @brief This function is called when the module is removed from the kernel
  */
 static void __exit ModuleExit(void) {
 	pwm_disable(pwm0);
