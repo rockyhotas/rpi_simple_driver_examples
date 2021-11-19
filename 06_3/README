@@ -1,0 +1,5 @@
+Use
+
+echo -n "<number>" > /dev/my_pulse_pwm_driver
+
+where `<number>' is the number of milliseconds which specifies the duration of whole cycle of fading in and fading out of the LED.
