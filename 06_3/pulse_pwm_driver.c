@@ -26,10 +26,8 @@ static struct cdev my_device;
 #define DRIVER_NAME "my_pulse_pwm_driver"
 #define DRIVER_CLASS "MyModuleClass"
 #define PWM_PERIOD 1000000
-#define PWM_DEFAULT_STEPS 10000
-#define PWM_DEFAULT_DELAY 10	// in microseconds
-#define PWM_DEFAULT_STEPS_PER_MS 100
-// number of steps per millisecond
+#define PWM_DEFAULT_STEPS_PER_MS 1
+#define PWM_DEFAULT_DELAY 1000 / PWM_DEFAULT_STEPS_PER_MS	// in microseconds
 
 static u32 pwm_steps;
 
@@ -63,7 +61,7 @@ static int duty_cycle_change(struct pwm_device *target, u32 period, u32 value) {
  * @brief Write data to buffer
  */
 static ssize_t driver_write(struct file *File, const char __user *user_buffer, size_t count, loff_t *offset) {
-	u32 i; /* Warning: if i is u16 and PWM_RES is 65536, it will go from 0 to 65535; then, if
+	u32 i; /* Warning: if i is u16 and pwm_steps is 65536, it will go from 0 to 65535; then, if
 		* further incremented, it will again become 0. It will always be < 65536, so the
 		* for loop will never end. */
 	u32 value;
@@ -98,8 +96,10 @@ static ssize_t driver_write(struct file *File, const char __user *user_buffer, s
 					return -1;
 				}
 			}
-			/* For some us delay, use udelay: https://www.kernel.org/doc/html/latest/timers/timers-howto.html */
-			udelay(PWM_DEFAULT_DELAY);
+			/* Assuming that the above operations take a negligible time, set a 1 ms (PWM_PERIOD)
+			 * sleep time. Use the function suggested in
+			 * https://www.kernel.org/doc/html/latest/timers/timers-howto.html */
+			usleep_range(PWM_DEFAULT_DELAY, PWM_DEFAULT_DELAY);
 		}
 	}
 

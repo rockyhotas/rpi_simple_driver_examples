@@ -10,6 +10,8 @@
 /* Created by Rocky Hotas, based on the Johannes4Linux Linux Driver Tutorial:
  * https://github.com/Johannes4Linux/Linux_Driver_Tutorial
  * https://www.youtube.com/playlist?list=PLCGpd0Do5-I3b5TtyqeF1UdyD4C-S-dMa
+ * and on the EmbeTronicX Tutorial:
+ * https://embetronicx.com/tutorials/linux/device-drivers/linux-device-drivers-tutorial-kernel-thread/
  */
 
 MODULE_LICENSE("GPL");
